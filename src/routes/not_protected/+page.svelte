@@ -1,0 +1,1 @@
+<div>NOT PROTECTED</div>
