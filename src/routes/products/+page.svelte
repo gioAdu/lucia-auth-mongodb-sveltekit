@@ -1,1 +1,0 @@
-<div>PROTECTED PAGE</div>
