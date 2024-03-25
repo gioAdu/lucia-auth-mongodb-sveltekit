@@ -31,11 +31,16 @@
 		>
 			<button class="btn bg-gradient-to-br variant-gradient-secondary-tertiary flex items-center">
 				<span>Shop</span>
-				<img src="/dropdown_arrow.svg" alt="dropdown arrow" class:rotate-90={showDropdown} class="transition-all" />
+				<img
+					src="/dropdown_arrow.svg"
+					alt="dropdown arrow"
+					class:rotate-90={showDropdown}
+					class="transition-all"
+				/>
 			</button>
 			<ul
 				class:hidden={!showDropdown}
-				class="absolute bg-surface-50-900-token grid grid-cols-4 gap-x-10 right-0 min-w-max p-2 pt- rounded-lg border"
+				class=" z-50 absolute bg-surface-50-900-token grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 right-0 min-w-max p-2 pt- rounded-lg border"
 			>
 				{#each categories as item}
 					<li class="border-b border-slate-700">
@@ -54,6 +59,6 @@
 		{:else}
 			<a href="/signup" class="btn variant-filled-primary font-bold ms-4">Log In</a>
 		{/if}
-		<LightSwitch />
+
 	</div>
 </AppBar>
