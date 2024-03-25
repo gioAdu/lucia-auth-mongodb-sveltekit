@@ -5,6 +5,6 @@
 	export let data;
 </script>
 
-<Header session={data.session} />
+<Header session={data.session} categories = {data.categoriesData}/>
 
 <slot />
