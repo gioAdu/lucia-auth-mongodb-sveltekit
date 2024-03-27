@@ -1,6 +1,7 @@
 <script>
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
+	import { count } from '../stores/store';
 	export let session, categories;
 
 	let showDropdown = false;
@@ -40,12 +41,14 @@
 			</button>
 			<ul
 				class:hidden={!showDropdown}
-				class=" z-50 absolute bg-surface-50-900-token grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 right-0 min-w-max p-2 pt- rounded-lg border"
+				class="z-50 absolute bg-surface-50-900-token grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 right-0 min-w-max p-2 pt- rounded-lg border"
 			>
 				{#each categories as item}
 					<li class="border-b border-slate-700">
-						<a class="p-2 inline-block w-full" on:click={() => (showDropdown = false)} href={item}
-							>{item}</a
+						<a
+							class="p-2 inline-block w-full hover:bg-surface-200-700-token rounded-t"
+							on:click={() => (showDropdown = false)}
+							href="/{item}">{item}</a
 						>
 					</li>
 				{/each}
@@ -59,8 +62,9 @@
 		{:else}
 			<a href="/signup" class="btn variant-filled-primary font-bold ms-4">Log In</a>
 		{/if}
-		<a href="/cart" class="hover:bg-slate-300 rounded-full p-2 relative">
-			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10 tex">2 </span>
+		<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative">
+			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10 tex">{$count}</span
+			>
 			<img src="/cart.svg" alt="cart" />
 		</a>
 	</div>
