@@ -28,9 +28,9 @@
 					</div>
 				</section>
 				<footer class="card-footer flex flex-col items-end justify-center">
-					<button class="flex flex-col items-center" on:click={addToCart}>
+					<button class="flex flex-col items-center scale-90" on:click={addToCart}>
 						<img src="/cart.svg" alt="cart" />
-						<div>Add To Cart</div>
+						<div class="font-bold text-tertiary-900-50-token">Add To Cart</div>
 					</button>
 				</footer>
 			</div>

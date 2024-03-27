@@ -1,5 +1,5 @@
 <script>
-	import { AppBar, LightSwitch } from '@skeletonlabs/skeleton';
+	import { AppBar } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	export let session, categories;
 
@@ -59,6 +59,9 @@
 		{:else}
 			<a href="/signup" class="btn variant-filled-primary font-bold ms-4">Log In</a>
 		{/if}
-
+		<a href="/cart" class="hover:bg-slate-300 rounded-full p-2 relative">
+			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10 tex">2 </span>
+			<img src="/cart.svg" alt="cart" />
+		</a>
 	</div>
 </AppBar>
