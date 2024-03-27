@@ -10,7 +10,7 @@
 
 <div class="flex flex-wrap container m-auto">
 	{#each data?.catData as item}
-		<a href="/" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 flex">
+		<a href="/categories/{item.id}" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 flex">
 			<div class="card card-hover variant-ringed flex flex-col w-full">
 				<header class="card-header"><img src={item.thumbnail} alt={item.title} /></header>
 				<section class="p-4 flex-grow">
