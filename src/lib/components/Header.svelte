@@ -2,6 +2,7 @@
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import { count } from '../stores/store';
+	import { slide } from 'svelte/transition';
 	export let session, categories;
 
 	let showDropdown = false;
@@ -39,20 +40,23 @@
 					class="transition-all"
 				/>
 			</button>
-			<ul
-				class:hidden={!showDropdown}
-				class="z-50 absolute bg-surface-50-900-token grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 right-0 min-w-max p-2 pt- rounded-lg border"
-			>
-				{#each categories as item}
-					<li class="border-b border-slate-700">
-						<a
-							class="p-2 inline-block w-full hover:bg-surface-200-700-token rounded-t"
-							on:click={() => (showDropdown = false)}
-							href="/{item}">{item}</a
-						>
-					</li>
-				{/each}
-			</ul>
+
+			{#if showDropdown}
+				<ul
+					transition:slide
+					class="z-50 absolute bg-surface-50-900-token grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 right-0 min-w-max p-2 pt- rounded-lg border"
+				>
+					{#each categories as item}
+						<li class="border-b border-slate-700">
+							<a
+								class="p-2 inline-block w-full hover:bg-surface-200-700-token rounded-t"
+								on:click={() => (showDropdown = false)}
+								href="/{item}">{item}</a
+							>
+						</li>
+					{/each}
+				</ul>
+			{/if}
 		</div>
 
 		{#if session}
