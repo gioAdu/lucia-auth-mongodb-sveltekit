@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { count } from '$lib/stores/store.js';
+	import { modeCurrent } from '@skeletonlabs/skeleton';
 
 	export let data;
 	let cartItems = [];
@@ -73,7 +74,27 @@
 							btnAnimation(event, 1.15);
 						}}
 					>
-						<img src="/cart.svg" alt="cart" />
+						<svg
+							width="50"
+							height="50"
+							viewBox="0 0 24 24"
+							data-name="Line Color"
+							xmlns="http://www.w3.org/2000/svg"
+							class="icon line-color"
+						>
+							<path
+								d="M11 20.5h.1m5.9 0h.1"
+								style="fill:none;stroke:{$modeCurrent
+									? '#000'
+									: '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
+							/>
+							<path
+								d="M3 3h2.14a1 1 0 0 1 1 .85L6.62 7 8 16l11-1 2-8H6.62"
+								style="fill:none;stroke:{$modeCurrent
+									? '#000'
+									: '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
+							/>
+						</svg>
 						<div class="font-bold text-tertiary-900-50-token">Add To Cart</div>
 					</button>
 				</footer>
