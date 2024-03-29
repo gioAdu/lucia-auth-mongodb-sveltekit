@@ -1,26 +1,15 @@
 <script>
 	import { modeCurrent } from '@skeletonlabs/skeleton';
-	import { cartItems } from '../../lib/stores/store.js';
-
+	import { cartItems } from '$lib/stores/store.js';
+	import { updateLocalCart } from '$lib/helpers/addToCart.js';
 	export let data;
 
 	const addToCart = (e, id, category) => {
 		e.preventDefault();
 
 		if (!data.session) {
-			const currentCartItems = $cartItems || [];
-			const existingItem = currentCartItems.find(
-				(item) => item.id === id && item.category === category
-			);
-
-			if (existingItem) {
-				existingItem.count += 1;
-			} else {
-				currentCartItems.push({ id, category, count: 1 });
-			}
-
-			cartItems.set(currentCartItems);
-			localStorage.setItem('cart', JSON.stringify($cartItems));
+			const updatedItems = updateLocalCart(id, category, cartItems);
+			cartItems.set(updatedItems);
 			return;
 		}
 
@@ -29,10 +18,18 @@
 		}, 300);
 	};
 
+	let timeoutId = null;
+
 	const btnAnimation = (e, size) => {
 		const button = e.currentTarget;
+
 		button.style.transform = `scale(${size})`;
-		setTimeout(() => {
+
+		if (timeoutId) {
+			clearTimeout(timeoutId);
+		}
+
+		timeoutId = setTimeout(() => {
 			button.style.transform = 'scale(1)';
 		}, 300);
 	};
