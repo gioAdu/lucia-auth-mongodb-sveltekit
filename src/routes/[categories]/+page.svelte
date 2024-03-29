@@ -1,29 +1,26 @@
 <script>
-	import { onMount } from 'svelte';
-	import { count } from '$lib/stores/store.js';
 	import { modeCurrent } from '@skeletonlabs/skeleton';
+	import { cartItems } from '../../lib/stores/store.js';
 
 	export let data;
-	let cartItems = [];
-
-	onMount(() => {
-		cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-	});
 
 	const addToCart = (e, id, category) => {
 		e.preventDefault();
-		count.update((n) => n + 1);
 
 		if (!data.session) {
-			const existingItem = cartItems.find((item) => item.id === id && item.category === category);
+			const currentCartItems = $cartItems || [];
+			const existingItem = currentCartItems.find(
+				(item) => item.id === id && item.category === category
+			);
 
 			if (existingItem) {
 				existingItem.count += 1;
 			} else {
-				cartItems.push({ id, category, count: 1 });
+				currentCartItems.push({ id, category, count: 1 });
 			}
-			localStorage.setItem('cart', JSON.stringify(cartItems));
 
+			cartItems.set(currentCartItems);
+			localStorage.setItem('cart', JSON.stringify($cartItems));
 			return;
 		}
 
