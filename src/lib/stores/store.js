@@ -1,3 +1,7 @@
-import { writable } from "svelte/store";
+import { derived, writable } from 'svelte/store';
 
-export const count = writable(0);
+export const cartItems = writable([]);
+
+export const derivedCount = derived(cartItems, $cartItems => 
+	$cartItems.reduce((total, item) => total + item?.count, 0)
+);
