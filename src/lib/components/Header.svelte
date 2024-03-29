@@ -8,8 +8,6 @@
 	let showDropdown = false;
 	let timeoutId;
 
-	console.log($derivedCount);
-
 	const hideDropDownAfterDelay = () => {
 		timeoutId = setTimeout(() => {
 			showDropdown = false;
