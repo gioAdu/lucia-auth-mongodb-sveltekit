@@ -1,9 +1,10 @@
 <script>
-	import { AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar, modeCurrent } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import { count } from '../stores/store';
 	import { slide } from 'svelte/transition';
 	export let session, categories;
+	
 
 	let showDropdown = false;
 	let timeoutId;
@@ -69,7 +70,23 @@
 		<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative">
 			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10 tex">{$count}</span
 			>
-			<img src="/cart.svg" alt="cart" />
+			<svg
+				width="50"
+				height="50"
+				viewBox="0 0 24 24"
+				data-name="Line Color"
+				xmlns="http://www.w3.org/2000/svg"
+				class="icon line-color"
+			>
+				<path
+					d="M11 20.5h.1m5.9 0h.1"
+					style="fill:none;stroke:{$modeCurrent ? '#000' : '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
+				/>
+				<path
+					d="M3 3h2.14a1 1 0 0 1 1 .85L6.62 7 8 16l11-1 2-8H6.62"
+					style="fill:none;stroke:{$modeCurrent ? '#000' : '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
+				/></svg
+			>
 		</a>
 	</div>
 </AppBar>
