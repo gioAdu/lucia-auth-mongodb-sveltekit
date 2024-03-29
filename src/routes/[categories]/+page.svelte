@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { count } from '../../lib/stores/store.js';
+	import { count } from '$lib/stores/store.js';
 
 	export let data;
 	let cartItems = [];
@@ -22,7 +22,13 @@
 				cartItems.push({ id, category, count: 1 });
 			}
 			localStorage.setItem('cart', JSON.stringify(cartItems));
+
+			return;
 		}
+
+		const timeOut = setTimeout(() => {
+			console.log('test');
+		}, 300);
 	};
 
 	const btnAnimation = (e, size) => {
@@ -48,12 +54,12 @@
 							{item.title}
 							<span class="card-price">$10</span>
 						</h1>
-						
+
 						<div class="card-brand">
 							<span class="font-bold text-lg">Brand :</span>
 							{item.brand}
 						</div>
-						
+
 						<div class="mt-2 font-bold text-lg">Description :</div>
 						<div class="card-description">{item.description}</div>
 					</div>
