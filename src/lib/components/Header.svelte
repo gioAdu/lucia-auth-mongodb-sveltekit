@@ -4,7 +4,6 @@
 	import { count } from '../stores/store';
 	import { slide } from 'svelte/transition';
 	export let session, categories;
-	
 
 	let showDropdown = false;
 	let timeoutId;
@@ -68,8 +67,9 @@
 			<a href="/signup" class="btn variant-filled-primary font-bold ms-4">Log In</a>
 		{/if}
 		<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative">
-			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10 tex">{$count}</span
-			>
+			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10">
+				{$count}
+			</span>
 			<svg
 				width="50"
 				height="50"
@@ -80,13 +80,17 @@
 			>
 				<path
 					d="M11 20.5h.1m5.9 0h.1"
-					style="fill:none;stroke:{$modeCurrent ? '#000' : '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
+					style="fill:none;stroke:{$modeCurrent
+						? '#000'
+						: '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
 				/>
 				<path
 					d="M3 3h2.14a1 1 0 0 1 1 .85L6.62 7 8 16l11-1 2-8H6.62"
-					style="fill:none;stroke:{$modeCurrent ? '#000' : '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
-				/></svg
-			>
+					style="fill:none;stroke:{$modeCurrent
+						? '#000'
+						: '#fff'};stroke-linecap:round;stroke-linejoin:round;stroke-width:2"
+				/>
+			</svg>
 		</a>
 	</div>
 </AppBar>
