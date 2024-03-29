@@ -1,12 +1,14 @@
 <script>
 	import { AppBar, modeCurrent } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
-	import { count } from '../stores/store';
+	import { derivedCount } from '../stores/store';
 	import { slide } from 'svelte/transition';
 	export let session, categories;
 
 	let showDropdown = false;
 	let timeoutId;
+
+	console.log($derivedCount);
 
 	const hideDropDownAfterDelay = () => {
 		timeoutId = setTimeout(() => {
@@ -68,7 +70,7 @@
 		{/if}
 		<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative">
 			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10">
-				{$count}
+				{$derivedCount}
 			</span>
 			<svg
 				width="50"
