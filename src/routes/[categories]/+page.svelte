@@ -17,22 +17,6 @@
 			console.log('test');
 		}, 300);
 	};
-
-	let timeoutId = null;
-
-	const btnAnimation = (e, size) => {
-		const button = e.currentTarget;
-
-		button.style.transform = `scale(${size})`;
-
-		if (timeoutId) {
-			clearTimeout(timeoutId);
-		}
-
-		timeoutId = setTimeout(() => {
-			button.style.transform = 'scale(1)';
-		}, 300);
-	};
 </script>
 
 <div class="flex flex-wrap container m-auto">
@@ -62,11 +46,8 @@
 
 				<footer class="card-footer flex flex-col items-end justify-center">
 					<button
-						class="flex flex-col items-center scale-90 transition-transform duration-300"
-						on:click={(event) => {
-							addToCart(event, item.id, item.category);
-							btnAnimation(event, 1.15);
-						}}
+						class="flex flex-col items-center scale-90 duration-300 active:scale-[1.15] active:duration-0"
+						on:click={(event) => addToCart(event, item.id, item.category)}
 					>
 						<svg
 							width="50"
