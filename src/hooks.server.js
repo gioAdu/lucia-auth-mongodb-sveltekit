@@ -22,7 +22,6 @@ export async function handle({ event, resolve }) {
 		});
 	}
 
-	event.locals.loggedIn = true;
 
 	if (session && session.fresh) {
 		const sessionCookie = lucia.createSessionCookie(session.id);
