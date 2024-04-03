@@ -12,4 +12,4 @@ const User = db.collection('user');
 const Session = db.collection('sessions');
 const adapter = new MongodbAdapter(Session, User);
 
-export { db, adapter };
+export { db, adapter, User };
