@@ -12,7 +12,5 @@ export const updateLocalCart = (id, category) => {
 		currentCartItems.push({ id, category, count: 1 });
 	}
 
-	localStorage.setItem('cart', JSON.stringify(currentCartItems));
-
 	return currentCartItems;
 };
