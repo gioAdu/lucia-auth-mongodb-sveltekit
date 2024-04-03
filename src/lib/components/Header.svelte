@@ -64,7 +64,7 @@
 				<button class="btn bg-gradient-to-br variant-gradient-warning-error">Logout</button>
 			</form>
 		{:else}
-			<a href="/signup" class="btn variant-filled-primary font-bold ms-4">Log In</a>
+			<a href="/signin" class="btn variant-filled-primary font-bold ms-4">Log In</a>
 		{/if}
 		<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative">
 			<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10">
