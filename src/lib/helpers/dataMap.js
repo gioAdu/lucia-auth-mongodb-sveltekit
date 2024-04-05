@@ -1,17 +1,42 @@
 import { User } from '$lib/server/MongoClient.js';
+import { fail } from '@sveltejs/kit';
 
-export const dataMap = (data, userId) => {
-	console.log(data, userId);
-	// Find the user and the item in the user's cart
-	// User.findAndModify({
-	// 	query: { _id: userId, 'cartItems.id': itemId, 'cartItems.category': category },
-	// 	update: { $inc: { 'cartItems.$.count': count } }, // Increase or decrease the count
-	// 	upsert: true // Create a new document if no documents match the query
-	// });
+export const dataMap = async (data, userId) => {
+	const normalData = JSON.parse(data);
 
-	// // If the item doesn't exist in the user's cart, add it
-	// User.update(
-	// 	{ _id: userId, 'cartItems.id': { $ne: itemId }, 'cartItems.category': { $ne: category } },
-	// 	{ $push: { cartItems: { id: itemId, category: category, count: count } } }
-	// );
+	try {
+		const user = await User.findOne({ _id: userId });
+		if (user) {
+			await addToCart(user, normalData);
+		} else {
+			return fail(404, { message: 'User not found' });
+		}
+	} catch (error) {
+		return fail(500, { message: error });
+	}
 };
+
+async function addToCart(user, cartItemsData) {
+	const existingCart = user.cartItems || [];
+	for (const item of cartItemsData) {
+		const existingItem = existingCart.find((cartItem) => cartItem.id === item.id);
+		if (existingItem) {
+			existingItem.count += item.count;
+		} else {
+			existingCart.push(item);
+		}
+	}
+
+	user.cartItems = existingCart;
+
+	try {
+		const result = await User.updateOne({ _id: user._id }, { $set: { cartItems: user.cartItems } });
+		if (result.modifiedCount === 1) {
+			return { success: true };
+		} else {
+			return fail(500, { message: 'failed to add item' });
+		}
+	} catch (error) {
+		return fail(500, { message: error });
+	}
+}
