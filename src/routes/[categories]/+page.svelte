@@ -1,14 +1,42 @@
 <script>
 	import { modeCurrent } from '@skeletonlabs/skeleton';
-	import { cartItems } from '$lib/stores/store.js';
-	import { updateLocalCart } from '$lib/helpers/addToCart.js';
+	import { cartItems, serverCartItems } from '$lib/stores/store.js';
+	import { updateLocalCart } from '$lib/helpers/Cart.js';
 	import { enhance } from '$app/forms';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	export let data;
+	export let form;
 
 	let formTimeout;
+	let cartData;
 
-	const addToCart = (e, id, category) => {
+	const toastStore = getToastStore();
+	const t = {
+		message: 'Something went wrong',
+		background: 'variant-glass-error',
+		timeout: 3500,
+		classes: 'flex-row-reverse '
+	};
+
+	$: {
+		if (form?.serverErr) {
+			t.message = form.message;
+			toastStore.trigger(t);
+		}
+
+		if (form?.success) {
+			cartItems.set([]);
+			localStorage.removeItem('cart');
+			serverCartItems.set(form.serverCart);
+			
+			t.message = 'Item added to cart';
+			t.background = 'variant-glass-success';
+			toastStore.trigger(t);
+		}
+	}
+
+	const addToCart = async (e, id, category) => {
 		e.preventDefault();
 
 		const formEl = e.currentTarget.form;
@@ -17,36 +45,20 @@
 			clearTimeout(formTimeout);
 		}
 
-		let updatedItems = updateLocalCart(id, category, cartItems);
+		let localCart = updateLocalCart(id, category, $cartItems);
 
 		if (!data.session) {
-			localStorage.setItem('cart', JSON.stringify(updatedItems));
-			cartItems.set(updatedItems);
+			localStorage.setItem('cart', JSON.stringify(localCart));
+			cartItems.set(localCart);
 			return;
 		}
 
-		formTimeout = setTimeout(() => {
-			const formData = new FormData(formEl);
-			formData.append('cartItems', JSON.stringify(updatedItems));
+		cartData = updateLocalCart(id, category, cartData);
 
-			fetch(formEl.action, {
-				method: formEl.method,
-				body: formData
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
-					}
-					// If the request is successful, delete the item from localStorage
-					localStorage.removeItem('cart');
-					cartItems.set([]);
-				})
-				.catch((error) => {
-					console.error('Error:', error);
-					// Display the error message
-					alert('Something went wrong: ' + error.message);
-				});
-		}, 300);
+		formTimeout = setTimeout(() => {
+			formEl.requestSubmit();
+			cartData = [];
+		}, 500);
 	};
 </script>
 
@@ -77,6 +89,7 @@
 
 				<footer class="card-footer flex flex-col items-end justify-center">
 					<form method="POST" use:enhance>
+						<input type="hidden" name="cart_data" value={JSON.stringify(cartData)} />
 						<button
 							type="submit"
 							class="flex flex-col items-center scale-90 duration-300 active:scale-[1.15] active:duration-0"
