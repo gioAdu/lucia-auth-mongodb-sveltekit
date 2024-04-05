@@ -1,13 +1,15 @@
 import { lucia } from '$lib/server/auth';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { Argon2id } from 'oslo/password';
-import { db } from '../../lib/server/MongoClient.js';
+import { db } from '$lib/server/MongoClient.js';
+import { dataMap } from '$lib/helpers/dataMap.js';
 
 export const actions = {
 	default: async (event) => {
 		const formData = await event.request.formData();
 		const username = formData.get('username');
 		const password = formData.get('password');
+		const cartItems = formData.get('cartItems');
 
 		if (
 			typeof username !== 'string' ||
@@ -49,6 +51,16 @@ export const actions = {
 			...sessionCookie.attributes
 		});
 
-		redirect(302, '/protected');
+		const userId = session.userId;
+
+		if (cartItems) {
+			try {
+				await dataMap(cartItems, userId);
+			} catch (error) {
+				return fail(500, { message: error });
+			}
+		}
+
+		return { status: 200, body: { success: true } };
 	}
 };
