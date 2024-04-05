@@ -1,7 +1,7 @@
 <script>
 	import { LightSwitch, Toast } from '@skeletonlabs/skeleton';
 	import '../app.postcss';
-	import Header from '../lib/components/Header.svelte';
+	import Header from '$lib/components/Header.svelte';
 	import { onMount } from 'svelte';
 	import { cartItems, serverCartItems } from '../lib/stores/store';
 	import { initializeStores } from '@skeletonlabs/skeleton';
@@ -10,8 +10,12 @@
 
 	onMount(() => {
 		cartItems.set(JSON.parse(localStorage.getItem('cart')) || []);
-		serverCartItems.set(data.cartServer)
 	});
+	
+	$:if (data.session) {
+		serverCartItems.set(data.cartServer);
+	}
+
 	initializeStores();
 </script>
 
