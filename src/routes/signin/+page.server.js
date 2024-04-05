@@ -3,7 +3,6 @@ import { fail } from '@sveltejs/kit';
 import { Argon2id } from 'oslo/password';
 import { db } from '$lib/server/MongoClient.js';
 import { dataMap } from '$lib/helpers/dataMap.js';
-import { getCartFromServer } from '../../lib/helpers/serverCart.js';
 
 export const actions = {
 	default: async (event) => {
