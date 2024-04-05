@@ -3,6 +3,7 @@ import { fail } from '@sveltejs/kit';
 import { Argon2id } from 'oslo/password';
 import { db } from '$lib/server/MongoClient.js';
 import { dataMap } from '$lib/helpers/dataMap.js';
+import { getCartFromServer } from '../../lib/helpers/serverCart.js';
 
 export const actions = {
 	default: async (event) => {
@@ -52,15 +53,17 @@ export const actions = {
 		});
 
 		const userId = session.userId;
+		let cartData = [];
 
 		if (cartItems) {
 			try {
 				await dataMap(cartItems, userId);
 			} catch (error) {
+				console.log('error ', error);
 				return fail(500, { message: error });
 			}
 		}
 
-		return { status: 200, body: { success: true } };
+		return { status: 200, cartData };
 	}
 };
