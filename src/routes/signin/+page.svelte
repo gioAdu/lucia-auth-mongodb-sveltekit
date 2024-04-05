@@ -48,7 +48,7 @@
 
 			if (result.type === 'success') {
 				clearLocalCart();
-				await invalidateAll();
+				await invalidateAll();				
 				loading = false;
 				goto('/');
 			}
