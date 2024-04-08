@@ -58,7 +58,7 @@
 		formTimeout = setTimeout(() => {
 			formEl.requestSubmit();
 			cartData = [];
-		}, 500);
+		}, 350);
 	};
 </script>
 
