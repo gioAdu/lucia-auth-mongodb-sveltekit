@@ -8,5 +8,5 @@ export const derivedCount = derived(cartItems, ($cartItems) =>
 );
 
 export const derivedServerCount = derived(serverCartItems, ($serverCartItems) =>
-	$serverCartItems.reduce((total, item) => total + item?.count, 0)
+	$serverCartItems?.reduce((total, item) => total + item?.count, 0)
 );
