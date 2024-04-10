@@ -74,7 +74,7 @@
 					<div class="card-body">
 						<h1 class="card-title text-xl flex justify-between mb-2 border-t">
 							{item.title}
-							<span class="card-price">$10</span>
+							<span class="card-price">{item.price}$</span>
 						</h1>
 
 						<div class="card-brand">
