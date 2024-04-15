@@ -3,7 +3,7 @@
 	import '../app.postcss';
 	import Header from '$lib/components/Header.svelte';
 	import { onMount } from 'svelte';
-	import { cartItems, serverCartItems } from '../lib/stores/store';
+	import { cartItems, serverCartItems } from '$lib/stores/store';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 
 	export let data;
@@ -11,8 +11,8 @@
 	onMount(() => {
 		cartItems.set(JSON.parse(localStorage.getItem('cart')) || []);
 	});
-	
-	$:if (data.session) {
+
+	$: if (data.session) {
 		serverCartItems.set(data.cartServer);
 	}
 
@@ -22,7 +22,9 @@
 <Toast position="tl" spacing="gap-4" />
 
 <Header session={data.session} categories={data.categoriesData} />
+
 <slot />
+
 <div class="fixed bottom-2 right-2">
 	<LightSwitch />
 </div>
