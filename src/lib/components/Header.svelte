@@ -23,7 +23,7 @@
 </script>
 
 <div class="bg-surface-100-800-token">
-	<AppBar class='container mx-auto px-2' background='bg-transparent'>
+	<AppBar class="container mx-auto px-2" background="bg-transparent">
 		<div slot="lead">
 			<a href="/"> <img src="/home_logo.webp" alt="buyblitz" class="min-w-32 w-40" /> </a>
 		</div>
