@@ -1,1 +1,7 @@
-<p>HOME PAGE</p>
+<div class="bg-[url('/banner.avif')] bg-no-repeat bg-cover">
+	<div class="container mx-auto px-2 h-[400px] text-white">
+		<h1 class="text-5xl mb-8 pt-16">Explore Everything You Need</h1>
+		<div class="text-2xl">Your one-stop-shop for style, tech, and beyond</div>
+    <a href="/categories" class="text-center block mt-8 variant-filled-success px-5 py-3 w-1/4 text-xl rounded-full">Check our shop</a>
+	</div>
+</div>
