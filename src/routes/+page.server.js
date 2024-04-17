@@ -1,11 +1,16 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { lucia } from '../lib/server/auth.js';
+import { lucia } from '$lib/server/auth.js';
+import { dataMap } from '$lib/helpers/dataMap.js';
+import { getCartFromServer } from '$lib/helpers/serverCart.js';
 
-export async function load(event) {
-	return { data: 'test' };
+export async function load() {
+	const data = await fetch('https://dummyjson.com/products?limit=12');
+	const resp = await data.json();
+	return { products: resp.products };
 }
+
 export const actions = {
-	default: async (event) => {
+	logOut: async (event) => {
 		if (!event.locals.session) {
 			return fail(401);
 		}
@@ -17,5 +22,41 @@ export const actions = {
 			...sessionCookie.attributes
 		});
 		redirect(302, '/');
+	},
+
+	addCart: async ({ locals, request }) => {
+		console.log('test from inside');
+		const data = await request.formData();
+		const userId = locals.session?.userId;
+
+		const cartItems = data.get('cart_data');
+
+		if (!locals.session) {
+			return fail(401, { message: 'Unauthorized' });
+		}
+		
+		return;
+
+		//Add item to cart on server
+		try {
+			await dataMap(cartItems, userId);
+		} catch (error) {
+			return fail(500, {
+				serverErr: true,
+				message: 'Unable to add item. Please try again later'
+			});
+		}
+
+		//Get cart items from server
+		try {
+			const serverCart = await getCartFromServer(userId);
+			return { success: true, serverCart };
+		} catch (error) {
+			console.log(error);
+			return fail(500, {
+				serverErr: true,
+				message: 'Something went wrong'
+			});
+		}
 	}
 };
