@@ -20,6 +20,7 @@
 	} else {
 		cartItemCount = $derivedCount;
 	}
+
 </script>
 
 <div class="bg-surface-100-800-token">
@@ -68,7 +69,7 @@
 			</div>
 
 			{#if session}
-				<form method="post" action="/" use:enhance class="inline ms-4">
+				<form method="post" action="?/logOut" use:enhance class="inline ms-4">
 					<button class="btn bg-gradient-to-br variant-gradient-warning-error">Logout</button>
 				</form>
 			{:else}
