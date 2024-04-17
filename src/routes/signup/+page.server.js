@@ -1,4 +1,4 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { generateId } from 'lucia';
 import { lucia } from '../../lib/server/auth';
 import { Argon2id } from 'oslo/password';
