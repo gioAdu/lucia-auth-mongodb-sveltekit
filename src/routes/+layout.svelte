@@ -12,7 +12,7 @@
 		cartItems.set(JSON.parse(localStorage.getItem('cart')) || []);
 	});
 
-	$: if (data.session) {
+	$: if (data.isLoggedIn) {
 		serverCartItems.set(data.cartServer);
 	}
 
@@ -21,7 +21,7 @@
 
 <Toast position="tl" spacing="gap-4" />
 
-<Header session={data.session} categories={data.categoriesData} />
+<Header session={data.isLoggedIn} categories={data.categoriesData} />
 
 <slot />
 
