@@ -17,4 +17,5 @@
 	</div>
 </div>
 
-<Card productdata={products} session={data?.session} />
+
+<Card productdata={products} />
