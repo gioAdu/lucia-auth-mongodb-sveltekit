@@ -16,9 +16,9 @@ export const load = async ({ fetch, locals }) => {
 		}
 	}
 
-	if(cartServer === undefined ) {
+	if (cartServer === undefined) {
 		cartServer = [];
 	}
 
-	return { session, categoriesData, cartServer };
+	return { categoriesData, cartServer, isLoggedIn: locals.isLoggedIn };
 };
