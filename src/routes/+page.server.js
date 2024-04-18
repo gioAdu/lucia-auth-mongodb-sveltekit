@@ -6,6 +6,7 @@ import { getCartFromServer } from '$lib/helpers/serverCart.js';
 export async function load() {
 	const data = await fetch('https://dummyjson.com/products?limit=12');
 	const resp = await data.json();
+
 	return { products: resp.products };
 }
 
@@ -25,17 +26,14 @@ export const actions = {
 	},
 
 	addCart: async ({ locals, request }) => {
-		console.log('test from inside');
 		const data = await request.formData();
 		const userId = locals.session?.userId;
 
 		const cartItems = data.get('cart_data');
 
 		if (!locals.session) {
-			return fail(401, { message: 'Unauthorized' });
+			return { success: true, status: 200, message: 'Items added to cart', cartItems: cartItems };
 		}
-		
-		return;
 
 		//Add item to cart on server
 		try {
@@ -50,7 +48,7 @@ export const actions = {
 		//Get cart items from server
 		try {
 			const serverCart = await getCartFromServer(userId);
-			return { success: true, serverCart };
+			return { success: true, status: 201, serverCart };
 		} catch (error) {
 			console.log(error);
 			return fail(500, {
