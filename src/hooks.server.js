@@ -10,6 +10,12 @@ export async function handle({ event, resolve }) {
 
 	event.locals.session = session;
 
+	if (session) {
+		event.locals.isLoggedIn = true;
+	} else {
+		event.locals.isLoggedIn = false;
+	}
+
 	if (authRoutes.some((route) => event.route.id?.startsWith(route))) {
 		if (user) redirect(302, '/');
 	}
@@ -21,7 +27,6 @@ export async function handle({ event, resolve }) {
 			...sessionCookie.attributes
 		});
 	}
-
 
 	if (session && session.fresh) {
 		const sessionCookie = lucia.createSessionCookie(session.id);
