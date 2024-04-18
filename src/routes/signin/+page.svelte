@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { cartItems } from '$lib/stores/store.js';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { displayErrMsg } from '$lib/helpers/displayErrMsg';
 
 	let cart;
@@ -27,7 +27,7 @@
 		class="p-2 w-full max-w-lg"
 		use:enhance={() => {
 			loading = true;
-			return async ({ result }) => {
+			return async ({ result, update }) => {
 				if (result.type === 'failure') {
 					loading = false;
 					errMsg = displayErrMsg(result.data.message);
@@ -36,7 +36,7 @@
 
 				if (result.type === 'success') {
 					clearLocalCart();
-					await invalidateAll();
+					await update();
 					loading = false;
 					goto('/');
 				}
