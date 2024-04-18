@@ -4,4 +4,4 @@
 	export let data;
 </script>
 
-<Card productdata={data?.catData} session={data?.session} />
+<Card productdata={data?.catData}/>
