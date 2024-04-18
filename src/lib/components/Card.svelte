@@ -1,16 +1,16 @@
 <script>
 	import { modeCurrent } from '@skeletonlabs/skeleton';
-	import { cartItems } from '$lib/stores/store.js';
+	import { cartItems, serverCartItems } from '$lib/stores/store.js';
 	import { updateLocalCart } from '$lib/helpers/Cart.js';
-	import { enhance } from '$app/forms';
+	import { enhance, applyAction } from '$app/forms';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 
 	export let productdata;
-	export let session;
 
 	let formTimeout;
-	let cartData;
+	let dontCancel = false;
+	let localCart = [];
 
 	const toastStore = getToastStore();
 	const t = {
@@ -22,46 +22,32 @@
 
 	$: {
 		if ($page.form?.serverErr) {
-			t.message = form.message;
+			t.message = $page.form.message;
 			toastStore.trigger(t);
 		}
 
 		if ($page.form?.success) {
-			cartItems.set([]);
-			localStorage.removeItem('cart');
-
 			t.message = 'Item added to cart';
 			t.background = 'variant-glass-success';
 			toastStore.trigger(t);
 		}
 	}
 
-	const addToCart = async (e, id, category) => {
-		e.preventDefault();
+	const batchItemSubmissions = (id, category, cancel, formElement) => {
+		if (!dontCancel) {
+			cancel();
+			localCart = updateLocalCart(id, category, $cartItems);
 
-		const formEl = e.currentTarget.form;
+			if (formTimeout) clearTimeout(formTimeout);
 
-		
-		formTimeout = setTimeout(() => {
-			formEl.requestSubmit();
-			cartData = [];
-		}, 350);
+			formTimeout = setTimeout(() => {
+				dontCancel = true;
+
+				formElement.requestSubmit();
+				dontCancel = false;
+			}, 350);
+		}
 	};
-
-	// if (formTimeout) {
-	// 		clearTimeout(formTimeout);
-	// 	}
-
-	// 	let localCart = updateLocalCart(id, category, $cartItems);
-
-	// 	if (!session) {
-	// 		localStorage.setItem('cart', JSON.stringify(localCart));
-	// 		cartItems.set(localCart);
-	// 		return;
-	// 	}
-
-	// 	cartData = updateLocalCart(id, category, cartData);
-
 </script>
 
 <div class="flex flex-wrap container m-auto">
@@ -101,32 +87,30 @@
 					method="POST"
 					action="/?/addCart"
 					use:enhance={({ formElement, cancel }) => {
-						cancel();
-						console.log('cancelled');
+						batchItemSubmissions(item.id, item.category, cancel, formElement);
 
-						if (formTimeout) {
-							clearTimeout(formTimeout);
-						}
+						return async ({ result }) => {
+							if (result.type !== 'success') return;
 
-						formTimeout = setTimeout(() => {
-							formElement.requestSubmit();
-						}, 1000);
-						return async ({ result, update }) => {
-							console.log('success');
-
-							if (result.type === 'failure' && result.status === 401) {
-								console.log('not auth');
+							if (result.data.status === 200) {
+								localStorage.setItem('cart', result.data.cartItems);
+								cartItems.set(localCart);
 							}
+
+							if (result.data.status === 201) {
+								serverCartItems.set(result.data.serverCart);
+								cartItems.set([]);
+							}
+							await applyAction(result);
 						};
 					}}
 				>
 					<footer class="card-footer py-2 flex items-end justify-center border-t">
-						<input type="hidden" name="cart_data" value={JSON.stringify(cartData)} />
+						<input type="hidden" name="cart_data" value={JSON.stringify(localCart)} />
 						<button
 							type="submit"
 							class="flex gap-5 items-center scale-90 duration-300 active:scale-[1.15] active:duration-0"
 						>
-							<!-- on:click={(event) => addToCart(event, item.id, item.category)} -->
 							<svg
 								width="50"
 								height="50"
