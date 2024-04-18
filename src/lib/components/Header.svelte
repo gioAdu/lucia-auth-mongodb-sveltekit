@@ -20,7 +20,6 @@
 	} else {
 		cartItemCount = $derivedCount;
 	}
-
 </script>
 
 <div class="bg-surface-100-800-token">
