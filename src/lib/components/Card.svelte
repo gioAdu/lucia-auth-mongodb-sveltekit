@@ -56,7 +56,7 @@
 			<div class="card card-hover variant-ringed flex flex-col w-full justify-between">
 				<a href="/categories/{item.id}">
 					<header class="card-header relative">
-						<img src={item.thumbnail} alt={item.title} />
+						<img class=" w-full h-[180px] object-cover" src={item.thumbnail} alt={item.title} />
 						{#if item.discountPercentage}
 							<span
 								class="badge-icon w-11 h-11 text-base variant-filled-error absolute top-6 right-6"
@@ -65,7 +65,7 @@
 						{/if}
 					</header>
 
-					<section class="p-4 flex-grow">
+					<section class="p-4">
 						<div class="card-body">
 							<h1 class="card-title text-xl flex justify-between mb-2 border-t">
 								{item.title}
