@@ -25,6 +25,4 @@
 
 <slot />
 
-<div class="fixed bottom-2 right-2">
-	<LightSwitch />
-</div>
+
