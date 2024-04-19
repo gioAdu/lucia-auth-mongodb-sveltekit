@@ -22,7 +22,7 @@ export const actions = {
 			path: '.',
 			...sessionCookie.attributes
 		});
-		redirect(302, '/');
+		redirect(302, '/signin');
 	},
 
 	addCart: async ({ locals, request }) => {
