@@ -1,5 +1,5 @@
 <script>
-	import { AppBar, modeCurrent } from '@skeletonlabs/skeleton';
+	import { AppBar, LightSwitch, modeCurrent } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import { derivedCount, derivedServerCount } from '../stores/store';
 	import { slide } from 'svelte/transition';
@@ -74,7 +74,7 @@
 			{:else}
 				<a href="/signin" class="btn variant-filled-primary font-bold ms-4">Log In</a>
 			{/if}
-			<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative">
+			<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative  me-5">
 				<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10">
 					{cartItemCount}
 				</span>
@@ -100,6 +100,10 @@
 					/>
 				</svg>
 			</a>
+			<div class="w-[48px] 2xl:block xl:hidden "></div>
+			<div class="2xl:absolute relative right-[3%] ">
+				<LightSwitch />
+			</div>
 		</div>
 	</AppBar>
 </div>
