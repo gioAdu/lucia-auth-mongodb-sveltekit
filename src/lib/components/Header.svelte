@@ -23,12 +23,12 @@
 </script>
 
 <div class="bg-surface-100-800-token">
-	<AppBar class="container mx-auto px-2" background="bg-transparent">
+	<AppBar class="container mx-auto px-4" background="bg-transparent">
 		<div slot="lead">
 			<a href="/"> <img src="/home_logo.webp" alt="buyblitz" class="min-w-32 w-40" /> </a>
 		</div>
 
-		<div class="flex items-center gap-3" slot="trail">
+		<div class="flex items-center gap-5" slot="trail">
 			<div
 				class="dropdown relative"
 				role="button"
@@ -68,14 +68,14 @@
 			</div>
 
 			{#if session}
-				<form method="post" action="?/logOut" use:enhance class="inline ms-4">
+				<form method="post" action="?/logOut" use:enhance>
 					<button class="btn bg-gradient-to-br variant-gradient-warning-error">Logout</button>
 				</form>
 			{:else}
-				<a href="/signin" class="btn variant-filled-primary font-bold ms-4">Log In</a>
+				<a href="/signin" class="btn variant-filled-primary font-bold">Log In</a>
 			{/if}
-			<a href="/cart" class="hover:bg-surface-200-700-token rounded-full p-2 relative  me-5">
-				<span class="badge-icon variant-filled-warning absolute right-1 top-2 z-10">
+			<a href="/cart" class="hover:bg-surface-200-700-token rounded-full relative">
+				<span class="badge-icon variant-filled-warning absolute right-0 top-0 z-10">
 					{cartItemCount}
 				</span>
 				<svg
@@ -100,10 +100,7 @@
 					/>
 				</svg>
 			</a>
-			<div class="w-[48px] 2xl:block xl:hidden "></div>
-			<div class="2xl:absolute relative right-[3%] ">
-				<LightSwitch />
-			</div>
+			<LightSwitch />
 		</div>
 	</AppBar>
 </div>
