@@ -12,7 +12,8 @@
 	const drawerStore = getDrawerStore();
 
 	const drawerSettings = {
-		id: 'example-1'
+		id: 'example-1',
+		width: 'w-[60%]'
 	};
 
 	const hideDropDownAfterDelay = () => {
