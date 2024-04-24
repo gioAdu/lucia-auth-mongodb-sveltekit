@@ -5,12 +5,20 @@
 	import { enhance, applyAction } from '$app/forms';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import InfiniteScroll from '../misc/InfiniteScroll.svelte';
 
 	export let productdata;
+	export let showDiscount = false;
 
+	let productCount = 12;
+	let pageNumber = 1;
 	let formTimeout;
 	let dontCancel = false;
 	let localCart = [];
+	
+	let newBatch = null;
+	let showcaseData = productdata;
+	let hasMore = true;
 
 	const toastStore = getToastStore();
 	const t = {
@@ -48,16 +56,36 @@
 			}, 350);
 		}
 	};
+
+	const getData = async () => {
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ productCount, skip: productCount * pageNumber })
+		};
+
+		const response = await fetch(`/api/pagination`, options);
+		const resp = await response.json();
+
+		newBatch = resp.newData;
+
+		showcaseData = [...showcaseData, ...newBatch];
+
+		hasMore = newBatch.length > 0
+
+	};
 </script>
 
 <div class="flex flex-wrap container m-auto">
-	{#each productdata as item}
+	{#each showcaseData as item}
 		<div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 flex">
 			<div class="card card-hover variant-ringed flex flex-col w-full justify-between">
 				<a href="/categories/{item.id}">
 					<header class="card-header relative">
 						<img class=" w-full h-[180px] object-cover" src={item.thumbnail} alt={item.title} />
-						{#if item.discountPercentage}
+						{#if item.discountPercentage && showDiscount}
 							<span
 								class="badge-icon w-11 h-11 text-base variant-filled-error absolute top-6 right-6"
 								>-{item.discountPercentage.toFixed()}%</span
@@ -139,4 +167,13 @@
 			</div>
 		</div>
 	{/each}
+
+	<InfiniteScroll
+		hasMore={hasMore}
+		threshold={1}
+		on:loadMore={() => {
+			pageNumber++;
+			getData();
+		}}
+	/>
 </div>
