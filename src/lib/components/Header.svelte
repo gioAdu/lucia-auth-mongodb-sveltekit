@@ -45,7 +45,7 @@
 		</div>
 
 		<div class="flex items-center gap-5" slot="trail">
-			<button class="btn block sm:hidden" on:click={() => drawerStore.open(drawerSettings)}>
+			<button class="btn block sm:hidden order-1" on:click={() => drawerStore.open(drawerSettings)}>
 				<img class="w-[25px]" src="/burger_icon.svg" alt="menu" />
 			</button>
 
