@@ -17,5 +17,5 @@
 	</div>
 </div>
 
-
-<Card productdata={products} />
+<h1 class="text-5xl container mx-auto px-4 pt-4 border-b border-surface-500">Limited Time Deals</h1>
+<Card productdata={products} showDiscount={true} />
