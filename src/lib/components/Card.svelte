@@ -8,14 +8,16 @@
 	import InfiniteScroll from '../misc/InfiniteScroll.svelte';
 
 	export let productdata;
+	export let category = null;
+	export let initialLimit;
+
 	export let showDiscount = false;
 
-	let productCount = 12;
-	let pageNumber = 1;
+	let productCount = initialLimit;
 	let formTimeout;
 	let dontCancel = false;
 	let localCart = [];
-	
+
 	let newBatch = null;
 	let showcaseData = productdata;
 	let hasMore = true;
@@ -58,12 +60,13 @@
 	};
 
 	const getData = async () => {
+		console.log('test');
 		const options = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ productCount, skip: productCount * pageNumber })
+			body: JSON.stringify({ productCount, skip: showcaseData.length, category })
 		};
 
 		const response = await fetch(`/api/pagination`, options);
@@ -73,8 +76,7 @@
 
 		showcaseData = [...showcaseData, ...newBatch];
 
-		hasMore = newBatch.length > 0
-
+		hasMore = newBatch.length > 0;
 	};
 </script>
 
@@ -169,10 +171,9 @@
 	{/each}
 
 	<InfiniteScroll
-		hasMore={hasMore}
+		{hasMore}
 		threshold={1}
 		on:loadMore={() => {
-			pageNumber++;
 			getData();
 		}}
 	/>
