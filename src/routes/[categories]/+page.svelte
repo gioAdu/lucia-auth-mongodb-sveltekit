@@ -2,6 +2,10 @@
 	import Card from '$lib/components/Card.svelte';
 
 	export let data;
+
+	$: catData = data.catData;
 </script>
 
-<Card productdata={data?.catData}/>
+{#key catData}
+	<Card productdata={catData} category={data.cat} initialLimit={data.initialLimit} />
+{/key}
