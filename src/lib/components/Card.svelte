@@ -1,5 +1,5 @@
 <script>
-	import { modeCurrent } from '@skeletonlabs/skeleton';
+	import { ProgressRadial, modeCurrent } from '@skeletonlabs/skeleton';
 	import { cartItems, serverCartItems } from '$lib/stores/store.js';
 	import { updateLocalCart } from '$lib/helpers/Cart.js';
 	import { enhance, applyAction } from '$app/forms';
@@ -21,6 +21,7 @@
 	let newBatch = null;
 	let showcaseData = productdata;
 	let hasMore = true;
+	let loading = false;
 
 	const toastStore = getToastStore();
 	const t = {
@@ -60,7 +61,7 @@
 	};
 
 	const getData = async () => {
-		console.log('test');
+		loading = true;
 		const options = {
 			method: 'POST',
 			headers: {
@@ -77,8 +78,22 @@
 		showcaseData = [...showcaseData, ...newBatch];
 
 		hasMore = newBatch.length > 0;
+
+		loading = false;
 	};
 </script>
+
+{#if loading}
+	<div
+		class=" bg-surface-200 bg-opacity-30 h-screen fixed flex justify-center items-center w-full z-50 top-0"
+	>
+		<ProgressRadial
+			meter="stroke-gray-600"
+			track="stroke-gray-600/30"
+			strokeLinecap="round"
+		/>
+	</div>
+{/if}
 
 <div class="flex flex-wrap container m-auto">
 	{#each showcaseData as item}
