@@ -85,11 +85,11 @@
 
 {#if loading}
 	<div
-		class=" bg-surface-200 bg-opacity-30 h-screen fixed flex justify-center items-center w-full z-50 top-0"
+		class="bg-surface-200 bg-opacity-30 dark:bg-surface-800 dark:bg-opacity-30 h-screen fixed flex justify-center items-center w-full z-50 top-0"
 	>
 		<ProgressRadial
-			meter="stroke-gray-600"
-			track="stroke-gray-600/30"
+			meter="stroke-gray-600 dark:stroke-gray-300"
+			track="stroke-gray-600/30 dark:stroke-gray-300/30"
 			strokeLinecap="round"
 		/>
 	</div>
