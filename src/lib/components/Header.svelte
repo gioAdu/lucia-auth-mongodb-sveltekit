@@ -3,6 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { derivedCount, derivedServerCount } from '../stores/store';
 	import { slide } from 'svelte/transition';
+
 	export let session, categories;
 	
 	let showDropdown = false;
@@ -82,7 +83,7 @@
 									<a
 										class="p-2 inline-block w-full hover:bg-surface-200-700-token rounded-t"
 										on:click={() => (showDropdown = false)}
-										href="/{item}">{item}</a
+										href="/{item.slug}">{item.name}</a
 									>
 								</li>
 							{/each}
