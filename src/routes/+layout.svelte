@@ -18,14 +18,13 @@
 	}
 
 	initializeStores();
-	
 </script>
-<Drawer> 
-	<BurgerMenu/>
+
+<Drawer>
+	<BurgerMenu />
 </Drawer>
 
 <Toast position="tl" spacing="gap-4" />
-
 
 <Header session={data.isLoggedIn} categories={data.categoriesData} />
 
