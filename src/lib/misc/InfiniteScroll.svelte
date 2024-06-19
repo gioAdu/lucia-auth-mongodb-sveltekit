@@ -8,8 +8,6 @@
 	const dispatch = createEventDispatcher();
 	let observer;
 
-	console.log(hasMore);
-
 	onMount(() => {
 		if (elementScroll) {
 			observer = new IntersectionObserver(onIntersection, {
