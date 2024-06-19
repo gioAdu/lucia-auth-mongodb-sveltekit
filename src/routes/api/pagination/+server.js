@@ -6,7 +6,6 @@ export async function POST({ request }) {
 
 	const { productCount, skip, category } = pageData;
 
-	console.log(category);
 	if (category === 'categories') {
 		const newResp = await fetch(
 			`https://dummyjson.com/products?limit=${productCount}&skip=${skip}`
