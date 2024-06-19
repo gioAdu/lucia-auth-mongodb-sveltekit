@@ -4,10 +4,11 @@ import { dataMap } from '$lib/helpers/dataMap.js';
 import { getCartFromServer } from '$lib/helpers/serverCart.js';
 
 export async function load() {
-	const data = await fetch('https://dummyjson.com/products?limit=12');
+	const initialLimit = 12;
+	const data = await fetch(`https://dummyjson.com/products?limit=${initialLimit}`);
 	const resp = await data.json();
 
-	return { products: resp.products };
+	return { products: resp.products, initialLimit };
 }
 
 export const actions = {
