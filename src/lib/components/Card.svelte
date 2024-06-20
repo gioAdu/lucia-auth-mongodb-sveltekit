@@ -119,7 +119,7 @@
 
 							<div class="card-brand">
 								<span class="font-bold text-lg">Brand :</span>
-								{item.brand}
+								{item.brand ?? 'N/A'}
 							</div>
 
 							<div class="mt-2 font-bold text-lg">Description :</div>
