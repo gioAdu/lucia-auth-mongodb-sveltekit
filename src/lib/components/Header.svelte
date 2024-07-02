@@ -30,15 +30,6 @@
 	}
 </script>
 
-<!-- <div class="relative top-0 left-0 z-50 p-2 bg-green-800 text-sm text-white">
-	<div class="sm:hidden">XS</div>
-	<div class="hidden sm:block md:hidden">SM</div>
-	<div class="hidden md:block lg:hidden">MD</div>
-	<div class="hidden lg:block xl:hidden">LG</div>
-	<div class="hidden xl:block 2xl:hidden">XL</div>
-	<div class="hidden 2xl:block">2XL</div>
-</div> -->
-
 <div class="bg-surface-100-800-token">
 	<AppBar class="container mx-auto px-4" background="bg-transparent">
 		<div slot="lead">
