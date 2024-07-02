@@ -13,6 +13,14 @@
 
 	export let data;
 
+	let loading = false;
+	let progress = tweened(0, { duration: 300, easing: cubicOut });
+
+	beforeNavigate(() => {
+		loading = true;
+		progress.set(100);
+	});
+
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
@@ -24,6 +32,11 @@
 		});
 	});
 
+	afterNavigate(() => {
+		loading = false;
+		progress.set(0);
+	});
+
 	onMount(() => {
 		cartItems.set(JSON.parse(localStorage.getItem('cart')) || []);
 	});
@@ -31,18 +44,6 @@
 	$: if (data.isLoggedIn) {
 		serverCartItems.set(data.cartServer);
 	}
-
-	let loading = false;
-	let progress = tweened(0, { duration: 300, easing: cubicOut });
-
-	beforeNavigate(() => {
-		loading = true;
-		progress.set(100);
-	});
-	afterNavigate(() => {
-		loading = false;
-		progress.set(0);
-	});
 
 	initializeStores();
 </script>
