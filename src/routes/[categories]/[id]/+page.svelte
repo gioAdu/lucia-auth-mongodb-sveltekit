@@ -1,1 +1,1 @@
-<div class='container m-auto'>inner page categories</div>
+<div class="px-6">inner page categories</div>
