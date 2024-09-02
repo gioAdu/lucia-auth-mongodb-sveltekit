@@ -5,11 +5,11 @@
 	import { slide } from 'svelte/transition';
 
 	export let session, categories;
-	
+
 	let showDropdown = false;
 	let timeoutId;
 	let cartItemCount;
-	
+
 	const drawerStore = getDrawerStore();
 
 	const drawerSettings = {
