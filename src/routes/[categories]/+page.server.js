@@ -6,7 +6,7 @@ export async function load(event) {
 	if (categorieId === 'categories') {
 		catDataJson = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${limit}`);
 		const catData = await catDataJson.json();
-		return { cat: categorieId, catData: catData.products, initialLimit: limit};
+		return { cat: categorieId, catData: catData.products, initialLimit: limit };
 	}
 
 	catDataJson = await fetch(
