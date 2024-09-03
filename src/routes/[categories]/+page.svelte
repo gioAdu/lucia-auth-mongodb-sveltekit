@@ -9,7 +9,7 @@
 
 {#if catData.length > 0}
 	{#key catData}
-		<Card productdata={catData} category={data.cat} initialLimit={data.initialLimit} />
+		<Card productdata={catData} initialLimit={data.initialLimit} />
 	{/key}
 {:else}
 	<h1 class="text-center pt-5 text-5xl">Products not found</h1>
