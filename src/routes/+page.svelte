@@ -2,7 +2,7 @@
 	import Card from '$lib/components/Card.svelte';
 
 	export let data;
-	const products = data.products;
+	const products = data.products;	
 </script>
 
 <div class="bg-[url('/banner.avif')] bg-no-repeat bg-cover">
