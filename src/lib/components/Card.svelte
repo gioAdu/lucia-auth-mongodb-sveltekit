@@ -8,7 +8,7 @@
 	import InfiniteScroll from '../misc/InfiniteScroll.svelte';
 
 	export let productdata;
-	export let category = null;
+	
 	export let initialLimit;	
 
 	export let showDiscount = false;
@@ -99,7 +99,7 @@
 	{#each showcaseData as item}
 		<div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4 flex">
 			<div class="card card-hover variant-ringed flex flex-col w-full justify-between">
-				<a href="/{category}/{item.id}">
+				<a href="/{item.category}/{item.id}">
 					<header class="card-header relative">
 						<img class=" w-full h-[180px] object-cover" src={item.thumbnail} alt={item.title} />
 						{#if item.discountPercentage && showDiscount}
