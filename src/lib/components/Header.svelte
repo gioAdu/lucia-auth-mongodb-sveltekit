@@ -117,7 +117,9 @@
 					</svg>
 				</a>
 			</div>
+
 			<LightSwitch />
 		</div>
+
 	</AppBar>
 </div>
