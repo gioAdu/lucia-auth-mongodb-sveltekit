@@ -8,10 +8,11 @@
 	import InfiniteScroll from '../misc/InfiniteScroll.svelte';
 
 	export let productdata;
-	
-	export let initialLimit;	
+	export let initialLimit;
 
 	export let showDiscount = false;
+
+	const category = $page.params.categories || null;
 
 	let productCount = initialLimit;
 	let formTimeout;
@@ -62,6 +63,7 @@
 
 	const getData = async () => {
 		loading = true;
+		
 		const options = {
 			method: 'POST',
 			headers: {
