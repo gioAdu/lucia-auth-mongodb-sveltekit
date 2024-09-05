@@ -2,10 +2,23 @@
 	import DynamicRatings from '$lib/components/DynamicRatings.svelte';
 	import { modeCurrent } from '@skeletonlabs/skeleton';
 
+	import calculateReviewPercentages from '../../../lib/helpers/calculateReviewPercentages';
+
 	export let data;
 
 	const itemInfo = data.productInfo;
-	console.log(data.productInfo);
+
+	const reviewAverageRating = () => {
+		let totalRating = 0;
+
+		itemInfo.reviews.forEach((review) => {
+			totalRating += review.rating;
+		});
+
+		return totalRating / itemInfo.reviews.length;
+	};
+
+	let averageRating = reviewAverageRating();
 
 	const checkStock = () => {
 		if (itemInfo.stock === 0) {
@@ -24,12 +37,16 @@
 		const options = { month: 'short', day: 'numeric', year: 'numeric' };
 		return date.toLocaleDateString('en-US', options);
 	};
+
+	const reviewPercentage = calculateReviewPercentages(itemInfo.reviews);
+
+	const test = 66.6666;
 </script>
 
 <div class="container mx-auto mt-6 text-xl">
-	<div class="flex flex-col md:flex-row">
-		<div class="md:w-1/3">
-			<img src={itemInfo.thumbnail} alt={itemInfo.title} class="w-full" />
+	<div class="flex flex-col md:flex-row items-center">
+		<div class="md:w-1/3 flex justify-center">
+			<img src={itemInfo.images[0]} alt={itemInfo.title} class="w-full max-w-[300px]" />
 		</div>
 
 		<div class="md:w-2/3">
@@ -90,74 +107,108 @@
 	</div>
 
 	<h2 class="mt-4 text-3xl p-2">Product information</h2>
-	<h3 class="mt-2 p-2">Technical Details</h3>
 
-	<div class="p-2">
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Dimensions</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.dimensions.depth}"W {itemInfo.dimensions.height}"H {itemInfo.dimensions.depth}"D
+	<div class="grid grid-cols-1 md:grid-cols-2 md:gap-12">
+		<div class="">
+			<h3 class="mt-2 p-2">Technical Details</h3>
+
+			<div class="p-2">
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Dimensions</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.dimensions.depth}"W {itemInfo.dimensions.height}"H {itemInfo.dimensions
+							.depth}"D
+					</div>
+				</div>
+
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Weight</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.weight} KG
+					</div>
+				</div>
+
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Brand</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.brand}
+					</div>
+				</div>
+
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Sku</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.sku}
+					</div>
+				</div>
 			</div>
 		</div>
 
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Weight</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.weight} KG
-			</div>
-		</div>
+		<div class="">
+			<h3 class="mt-2 p-2">Additional Details</h3>
 
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Brand</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.brand}
-			</div>
-		</div>
+			<div class="p-2">
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Return Policy</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.returnPolicy}
+					</div>
+				</div>
 
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Sku</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.sku}
-			</div>
-		</div>
-	</div>
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Shipping</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.shippingInformation}
+					</div>
+				</div>
 
-	<h3 class="mt-2 p-2">Additional Details</h3>
-
-	<div class="p-2">
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Return Policy</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.returnPolicy}
-			</div>
-		</div>
-
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Shipping</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.shippingInformation}
-			</div>
-		</div>
-
-		<div class="flex border-t border-surface-400-500-token w-full md:w-1/2 xl:w-1/3">
-			<div class="bg-surface-200-700-token w-1/2 px-2">Warranty</div>
-			<div class="ps-2 pe-4 w-1/2">
-				{itemInfo.warrantyInformation}
+				<div class="flex border-t border-surface-400-500-token">
+					<div class="bg-surface-200-700-token w-1/2 px-2">Warranty</div>
+					<div class="ps-2 pe-4 w-1/2">
+						{itemInfo.warrantyInformation}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<h3 class="mt-2 p-2 text-3xl">Reviews</h3>
 
-	<div class="p-2">
-		{#each itemInfo.reviews as review}
-			<div class="py-2">
-				<div>{review.reviewerName}</div>
-				<DynamicRatings rating={review.rating} ratingSize={'w-4'} />
-				<div class="text-base text-gray-500">Reviewed on {convertTimeStamp(review.date)}</div>
-				<div>{review.comment}</div>
+	<div class="flex flex-wrap mt-4">
+		<div class="p-2 grow w-full md:w-auto">
+			<h3 class="text-2xl mb-1">Customer reviews</h3>
+
+			<div class="flex items-center gap-2">
+				<div>
+					<DynamicRatings rating={averageRating} />
+				</div>
+
+				<div>{averageRating} out of 5</div>
 			</div>
-		{/each}
-		<div></div>
+
+			<div class="mt-2 text-base text-blue-500">
+				{#each Object.entries(reviewPercentage) as [rating, percentage]}
+					<div class="flex gap-3 py-2">
+						<span>{rating} stars</span>
+						<span class="flex w-4/6 border border-black rounded-md">
+							<div style="width: {percentage}%;" class="bg-red-500"></div>
+						</span>
+						<span>{percentage}%</span>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<div class="p-2 grow">
+			{#each itemInfo.reviews as review}
+				<div class="pb-8 border-t">
+					<div>{review.reviewerName}</div>
+					<DynamicRatings rating={review.rating} ratingSize={'w-4'} />
+					<div class="text-base text-gray-500">Reviewed on {convertTimeStamp(review.date)}</div>
+					<div>{review.comment}</div>
+				</div>
+			{/each}
+			<div></div>
+		</div>
 	</div>
 </div>
