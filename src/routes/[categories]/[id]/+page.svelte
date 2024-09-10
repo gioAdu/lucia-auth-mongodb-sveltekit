@@ -2,11 +2,15 @@
 	import DynamicRatings from '$lib/components/DynamicRatings.svelte';
 	import { modeCurrent } from '@skeletonlabs/skeleton';
 
-	import calculateReviewPercentages from '../../../lib/helpers/calculateReviewPercentages';
+	import calculateReviewPercentages from '$lib/helpers/calculateReviewPercentages';
+	import filterComments from '$lib/helpers/filterComments';
 
 	export let data;
 
 	const itemInfo = data.productInfo;
+
+	let filteredReviews = itemInfo.reviews;
+	let filterSelected = false;
 
 	const reviewAverageRating = () => {
 		let totalRating = 0;
@@ -38,9 +42,19 @@
 		return date.toLocaleDateString('en-US', options);
 	};
 
-	const reviewPercentage = calculateReviewPercentages(itemInfo.reviews);
+	const handleFilter = (stars) => {
+		filterSelected = true;
+		const filteredComments = filterComments(itemInfo.reviews, stars);
 
-	const test = 66.6666;
+		return (filteredReviews = filteredComments);
+	};
+
+	const clearFilter = () => {
+		filterSelected = false;
+		return (filteredReviews = itemInfo.reviews);
+	};
+
+	const reviewPercentage = calculateReviewPercentages(itemInfo.reviews);
 </script>
 
 <div class="container mx-auto mt-6 text-xl">
@@ -172,35 +186,45 @@
 		</div>
 	</div>
 
-	<h3 class="mt-2 p-2 text-3xl">Reviews</h3>
-
-	<div class="flex flex-wrap mt-4">
-		<div class="p-2 grow w-full md:w-auto">
-			<h3 class="text-2xl mb-1">Customer reviews</h3>
+	<div class="flex flex-wrap mt-4 gap-8">
+		<div class="p-2 w-full lg:w-auto">
+			<h3 class="text-3xl mb-1">Customer reviews</h3>
 
 			<div class="flex items-center gap-2">
 				<div>
 					<DynamicRatings rating={averageRating} />
 				</div>
 
-				<div>{averageRating} out of 5</div>
+				<div>{averageRating.toFixed(1)} out of 5</div>
 			</div>
 
-			<div class="mt-2 text-base text-blue-500">
+			{#if filterSelected}
+				<button
+					on:click={clearFilter}
+					class="my-2 btn bg-gradient-to-br variant-gradient-error-warning"
+				>
+					clear Filter
+				</button>
+			{/if}
+			<ul class="mt-2 text-base text-blue-500">
 				{#each Object.entries(reviewPercentage) as [rating, percentage]}
-					<div class="flex gap-3 py-2">
-						<span>{rating} stars</span>
-						<span class="flex w-4/6 border border-black rounded-md">
-							<div style="width: {percentage}%;" class="bg-red-500"></div>
-						</span>
-						<span>{percentage}%</span>
-					</div>
+					<li>
+						<button class="block my-4" on:click={() => handleFilter(rating)}>
+							<div class="flex gap-3">
+								<div>{rating} stars</div>
+								<div
+									class="test relative flex w-[200px] sm:w-[330px] border border-black rounded-md"
+								></div>
+								<div>{percentage}%</div>
+							</div>
+						</button>
+					</li>
 				{/each}
-			</div>
+			</ul>
 		</div>
 
 		<div class="p-2 grow">
-			{#each itemInfo.reviews as review}
+			{#each filteredReviews as review}
 				<div class="pb-8 border-t">
 					<div>{review.reviewerName}</div>
 					<DynamicRatings rating={review.rating} ratingSize={'w-4'} />
@@ -212,3 +236,14 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.test::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		width: 30%;
+		background-color: red;
+		height: 100%;
+	}
+</style>
